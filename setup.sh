@@ -17,7 +17,7 @@ for day in `seq -f "%02.f" $start $end`; do
             cd "$project"
             cargo add aoc
             cat << EOF > src/main.rs
-#[macro_use] extern crate aoc;
+use aoc::aoc;
 
 #[aoc($event, $day, $part)]
 fn main(input: &str) -> i32 {
