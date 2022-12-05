@@ -49,30 +49,33 @@ pub trait StrExt {
     fn i32(&self) -> i32;
     fn u32(&self) -> u32;
     fn usize(&self) -> usize;
+    fn char(&self) -> char;
     fn is_match(&self, regex: &str) -> bool;
 }
 
 impl<S: AsRef<str>> StrExt for S {
     fn u8(&self) -> u8 {
-        self.as_ref().parse().unwrap()
+        self.as_ref().u8()
     }
 
     fn i32(&self) -> i32 {
-        self.as_ref().parse().unwrap()
+        self.as_ref().i32()
     }
 
     fn u32(&self) -> u32 {
-        self.as_ref().parse().unwrap()
+        self.as_ref().u32()
     }
 
     fn usize(&self) -> usize {
-        self.as_ref().parse().unwrap()
+        self.as_ref().usize()
+    }
+
+    fn char(&self) -> char {
+        self.as_ref().char()
     }
 
     fn is_match(&self, regex: &str) -> bool {
-        with_cached_regex(regex, |regex| {
-            regex.is_match(self.as_ref())
-        })
+        self.as_ref().is_match(regex)
     }
 }
 
@@ -91,6 +94,12 @@ impl StrExt for str {
 
     fn usize(&self) -> usize {
         self.parse().unwrap()
+    }
+
+    fn char(&self) -> char {
+        assert_eq!(self.len(), 1);
+
+        self.chars().next().unwrap()
     }
 
     fn is_match(&self, regex: &str) -> bool {
