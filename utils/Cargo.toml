@@ -1,10 +1,11 @@
 [package]
-name = "day23"
+name = "utils"
 version = "0.1.0"
-edition = "2021"
+authors = ["panicbit <panicbit.dev@gmail.com>"]
+edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-aoc = "0.4.0"
-utils = { version = "0.1.0", path = "../utils" }
+lazy_static = "1.4.0"
+regex = "1.4.2"
