@@ -369,6 +369,7 @@ name = "day06"
 version = "0.1.0"
 dependencies = [
  "aoc",
+ "itertools",
  "utils",
 ]
 
@@ -377,6 +378,7 @@ name = "day06_2"
 version = "0.1.0"
 dependencies = [
  "aoc",
+ "itertools",
  "utils",
 ]
 
