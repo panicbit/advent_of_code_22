@@ -2,8 +2,9 @@ use std::collections::HashSet;
 use std::ops;
 
 use aoc::aoc;
+use itertools::Itertools;
 
-#[aoc(2022, 9, 1)]
+#[aoc(2022, 9, 2)]
 fn main(input: &str) -> usize {
     let motions = input.lines().map(Motion::parse);
     let mut state = State::new();
@@ -16,20 +17,18 @@ fn main(input: &str) -> usize {
 }
 
 struct State {
-    head: Vec2,
-    tail: Vec2,
+    knots: Vec<Vec2>,
     tail_visited: HashSet<Vec2>,
 }
 
 impl State {
     fn new() -> Self {
         let mut this = Self {
-            head: Vec2::default(),
-            tail: Vec2::default(),
+            knots: vec![Vec2::default(); 10],
             tail_visited: HashSet::new(),
         };
 
-        this.tail_visited.insert(this.tail);
+        this.tail_visited.insert(Vec2::default());
 
         this
     }
@@ -41,17 +40,20 @@ impl State {
     }
 
     fn apply_direction(&mut self, direction: &Direction) {
-        self.head += direction.vector();
+        self.knots[0] += direction.vector();
 
-        let vector = self.head - self.tail;
+        for (head, tail) in (0..self.knots.len()).tuple_windows() {
 
-        if vector.x.abs() <= 1 && vector.y.abs() <= 1 {
-            return;
+            let vector = self.knots[head] - self.knots[tail];
+
+            if vector.x.abs() <= 1 && vector.y.abs() <= 1 {
+                return;
+            }
+
+            self.knots[tail] += vector.signum();
         }
 
-        self.tail += vector.signum();
-
-        self.tail_visited.insert(self.tail);
+        self.tail_visited.insert(*self.knots.last().unwrap());
     }
 }
 
